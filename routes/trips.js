@@ -26,7 +26,18 @@ router.post('/generatetrips', (req, res) => {
 
     Trip.find(query)
     .then((trips) => {
-        res.json({ trips });
+        if (trips.length === 0) {
+            return res.status(404).json({ message: 'Aucun trajet trouvé' });
+        }
+
+        
+        const formattedTrips = trips.map(trip => {
+            const time = moment(trip.date).format('HH:mm'); 
+            return `${trip.departure} > ${trip.arrival} ${time} ${trip.price} euros`;
+        });
+
+        
+        res.json({ trips: formattedTrips });
     })
     .catch((error) => {
         console.error('Erreur lors de la récupération des voyages:', error);
