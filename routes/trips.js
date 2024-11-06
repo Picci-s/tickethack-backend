@@ -15,8 +15,8 @@ router.post('/generatetrips', (req, res) => {
         return res.status(400).json({ error: 'Tous les champs sont obligatoires' });
     }
 
-    const startDate = moment(date).startOf('day').toISOString();
-    const endDate = moment(date).endOf('day').toISOString();
+    const startDate = moment(date, "DD/MM/YYYY").startOf('day').toISOString();
+    const endDate = moment(date, "DD/MM/YYYY").endOf('day').toISOString();
 
     const query = {
         departure: { $regex: new RegExp(departure, 'i') },
