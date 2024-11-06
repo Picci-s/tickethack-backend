@@ -17,6 +17,10 @@ app.use(cors());
 
 
 
+const cors = require('cors');
+app.use(cors());
+
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -27,5 +31,9 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/trips', tripsRouter);
 app.use('/bookings', bookingsRouter);
+
+
+require('./models/connection');
+
 
 module.exports = app;
