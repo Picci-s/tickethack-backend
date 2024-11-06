@@ -14,6 +14,7 @@ router.post('/generatetrips', (req, res) => {
     if (!departure || !arrival || !date) {
         return res.status(400).json({ error: 'Tous les champs sont obligatoires' });
     }
+    
 
     const startDate = moment(date, "DD/MM/YYYY").startOf('day').toISOString();
     const endDate = moment(date, "DD/MM/YYYY").endOf('day').toISOString();
@@ -33,11 +34,15 @@ router.post('/generatetrips', (req, res) => {
         
         const formattedTrips = trips.map(trip => {
             const time = moment(trip.date).format('HH:mm'); 
-            return `${trip.departure} > ${trip.arrival} ${time} ${trip.price} euros`;
+            return {
+                departure: trip.departure,
+                arrival: trip.arrival,
+                time: time,
+                price: trip.price
+            };
         });
 
-        
-        res.json({ trips: formattedTrips });
+        res.json({ result: true, trips: formattedTrips });
     })
     .catch((error) => {
         console.error('Erreur lors de la récupération des voyages:', error);
